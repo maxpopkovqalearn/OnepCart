@@ -1,5 +1,5 @@
+"""Fixtures for start different browsers"""
 import pytest
-import os
 
 from selenium import webdriver
 
@@ -9,20 +9,20 @@ def driver_factory(browser):
         driver = webdriver.Chrome()
     elif browser == "firefox":
         driver = webdriver.Firefox()
-    elif browser == "yandex":
-        driver = webdriver.Chrome()
     else:
         raise Exception("Driver not supported")
     return driver
 
 
 def pytest_addoption(parser):
+    """Parser for command line parameters"""
     parser.addoption("--browser", action="store", default="firefox")
-    parser.addoption("--url", action="store", default="http://127.0.0.1/opencart/", help="choose your browser")
+    parser.addoption("--url", action="store", default="http://127.0.0.1/opencart/", help="Сhoose your browser")
 
 
 @pytest.fixture
 def browser(request):
+    """Initializing and open browser"""
     browser = request.config.getoption("--browser")
     url = request.config.getoption("--url")
     driver = driver_factory(browser)
