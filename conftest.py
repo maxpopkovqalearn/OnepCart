@@ -17,7 +17,7 @@ def driver_factory(browser):
 def pytest_addoption(parser):
     """Parser for command line parameters"""
     parser.addoption("--browser", action="store", default="firefox")
-    parser.addoption("--url", action="store", default="http://127.0.0.1/opencart/", help="Сhoose your browser")
+    parser.addoption("--url", action="store", default="http://127.0.0.1/opencart/admin/", help="Сhoose your browser")
 
 
 @pytest.fixture
