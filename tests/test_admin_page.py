@@ -47,3 +47,23 @@ def test_wait_admin_login_page_catalog(browser):
     element = WebDriverWait(browser, 5).until(
         EC.presence_of_element_located((By.XPATH, '//*[text()="Canon EOS 5D"]')))
     assert element.text == "Canon EOS 5D"
+
+
+def test_for_product(browser):
+    username = 'admin'
+    password = 'admin'
+    browser.find_element_by_id('input-username').send_keys(username)
+    browser.find_element_by_id('input-password').send_keys(password)
+    browser.find_element_by_xpath('//*[text()="Login"]').click()
+    WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, '//*[text()="Catalog"]'))).click()
+    browser.find_element_by_xpath('//*[text()="Products"]').click()
+    browser.find_element_by_css_selector('a[data-original-title="Add New"]').click()
+    browser.find_element_by_css_selector('input[id="input-name1"]').send_keys('product1')
+    browser.find_element_by_css_selector('input[id="input-meta-title1"]').send_keys('meta-product1')
+    browser.find_element_by_css_selector('a[href="#tab-data"]').click()
+    browser.find_element_by_css_selector('input[id="input-model"]').send_keys('model-product1')
+    browser.find_element_by_css_selector('button[data-original-title="Save"]').click()
+    browser.find_element_by_xpath('//*[text()="product1"]/../td/input').click()
+    browser.find_element_by_css_selector(
+        'button[data-original-title="Delete"]').click()
+    browser.switch_to_alert().accept()
