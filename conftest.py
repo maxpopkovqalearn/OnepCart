@@ -1,13 +1,14 @@
 """Fixtures for start different browsers"""
 import pytest
-
 from selenium import webdriver
-
+from PageObj.MainPage import MainPage
 
 def driver_factory(browser):
     if browser == "chrome":
         driver = webdriver.Chrome()
     elif browser == "firefox":
+        options = webdriver.FirefoxOptions()
+        options.add_argument("-headless")
         driver = webdriver.Firefox()
     else:
         raise Exception("Driver not supported")
@@ -16,8 +17,16 @@ def driver_factory(browser):
 
 def pytest_addoption(parser):
     """Parser for command line parameters"""
-    parser.addoption("--browser", action="store", default="firefox")
-    parser.addoption("--url", action="store", default="http://127.0.0.1/opencart/admin/", help="Сhoose your browser")
+    parser.addoption("--browser",
+                     action="store",
+                     default="firefox")
+    parser.addoption("--url", action="store",
+                     default="http://127.0.0.1/opencart/",
+                     help="Сhoose your browser")
+    parser.addoption('--timeout',
+                     action='store',
+                     default=40,
+                     help='Timeout for wait WebDriver')
 
 
 @pytest.fixture
@@ -31,3 +40,10 @@ def browser(request):
     request.addfinalizer(driver.close)
     driver.get(url)
     return driver
+
+
+@pytest.fixture
+def main_page(browser):
+    page = MainPage(browser)
+    page._goto()
+    return page
