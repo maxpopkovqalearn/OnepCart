@@ -43,3 +43,6 @@ class BasePage:
 
     def _goto(self):
         return self.driver.get(self.base_url)
+
+
+
