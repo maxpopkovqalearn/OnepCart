@@ -11,7 +11,6 @@ class BasePage:
     def __init__(self, browser):
         """Initialize web driver"""
         self.driver: WebDriver = browser
-        self.base_url = "http://127.0.0.1/opencart/"
 
     def _click_to_element(self, locator):
         """Click to web element"""
@@ -41,8 +40,6 @@ class BasePage:
     def _wait_for_visible(self, locator, time_wait=3):
         return WebDriverWait(self.driver, time_wait).until(ec.visibility_of(self.driver.find_element(*locator)))
 
-    def _goto(self):
-        return self.driver.get(self.base_url)
 
 
 
