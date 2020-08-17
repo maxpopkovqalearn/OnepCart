@@ -35,7 +35,7 @@ def test_wait_admin_login_page_logout(browser):
     assert element.text == "Forgotten Password"
 
 
-def test_wait_admin_login_page_catalog(browser):
+def test_wait_admin_login_page_catalog(browser, get_url):
     """Test for admin login page catalog with wait"""
     username = 'admin'
     password = 'admin'
