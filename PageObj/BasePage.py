@@ -4,13 +4,17 @@ from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.common.exceptions import NoSuchElementException
+import logging
 
 
 class BasePage:
 
+    _logger_name = None
+
     def __init__(self, browser):
         """Initialize web driver"""
         self.driver: WebDriver = browser
+        self.logger = logging.getLogger(self._logger_name)
 
     def _click_to_element(self, locator):
         """Click to web element"""
