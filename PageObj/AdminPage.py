@@ -1,4 +1,5 @@
 """Selectors for different elements in the Opencart Admin Login page """
+from selenium.webdriver.common.by import By
 from PageObj.BasePage import BasePage
 import os
 import time
@@ -43,8 +44,8 @@ class AdminLoginPage(BasePage):
         CLOSE_UPLOAD_WINDOW = (By.XPATH, "//button[contains(text(), '×')]")
 
         class ProductTabs:
-                DATA_TAB = (By.XPATH, '//*[@id="form-product"]//li/a[contains(text(), "Data")]')
-                IMAGE_TAB = (By.XPATH, '//*[@id="form-product"]//li/a[contains(text(), "Image")]')
+            DATA_TAB = (By.XPATH, '//*[@id="form-product"]//li/a[contains(text(), "Data")]')
+            IMAGE_TAB = (By.XPATH, '//*[@id="form-product"]//li/a[contains(text(), "Image")]')
 
     class OptionsForm:
         OPTION_NAME = (By.CSS_SELECTOR, '.input-group input')
