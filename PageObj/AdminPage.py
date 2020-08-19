@@ -9,13 +9,12 @@ from selenium.webdriver.common.alert import Alert
 
 
 class AdminLoginPage(BasePage):
-
-    name="admin"
-    password="admin"
-    LOGIN=(By.ID, "input-username")
-    PASSWORD=(By.ID, "input-password")
-    LOG_ENTER=(By.XPATH, '//*[text()="Login"]')
-    CATALOG=(By.XPATH, '//*[text()="Catalog"]')
+    name = "admin"
+    password = "admin"
+    LOGIN = (By.ID, "input-username")
+    PASSWORD = (By.ID, "input-password")
+    LOG_ENTER = (By.XPATH, '//*[text()="Login"]')
+    CATALOG = (By.XPATH, '//*[text()="Catalog"]')
 
     class Navigation:
         CATALOG = (By.XPATH, '//li[@id="menu-catalog"]/a[contains(text(), "Catalog")]')
@@ -132,7 +131,3 @@ class AdminLoginPage(BasePage):
         self._wait_for_visible(self.OptionsForm.OPTION_VALUE_NAME)
         self._send_keys(value_name, self.OptionsForm.OPTION_VALUE_NAME)
         return self
-
-
-
-

@@ -2,6 +2,7 @@ import os
 import pytest
 from selenium import webdriver
 
+
 @pytest.fixture
 def ff_browser(request):
     options = webdriver.FirefoxOptions()
@@ -9,6 +10,7 @@ def ff_browser(request):
     wd = webdriver.Firefox(options=options)
     request.addfinalizer(wd.quit)
     return wd
+
 
 def test_download(ff_browser):
     ff_browser.get('https://developer.mozilla.org/ru/docs/Web/HTML/Element/Input/file')
