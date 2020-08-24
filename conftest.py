@@ -4,6 +4,13 @@ from selenium import webdriver
 from selenium.webdriver.support.wait import WebDriverWait
 from PageObj.AdminPage import AdminLoginPage
 from selenium.webdriver.common.by import By
+from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.support import expected_conditions as ec
+from selenium.webdriver.support.events import EventFiringWebDriver
+import logging
+from helpers.log_listener import Listener
+import sys
+
 
 def pytest_addoption(parser):
     """Parser for command line parameters"""
@@ -25,21 +32,40 @@ def pytest_addoption(parser):
                      help='Filename with log report')
 
 
+@pytest.fixture()
+def my_logger(request):
+    """Custom logger"""
+    filename = request.config.getoption('--file')
+    logging.basicConfig(level=logging.INFO, filename=filename)
+    logger = logging.getLogger('Web Driver')
+    if filename == None:
+        stdout_handler = logging.StreamHandler(sys.stdout)
+        logger.addHandler(stdout_handler)
+    else:
+        file_handler = logging.FileHandler(filename)
+        logger.addHandler(file_handler)
+
+    return logger
+
 
 @pytest.fixture()
-def browser(request):
+def browser(request, my_logger):
     """Initializing and open browser"""
     browser = request.config.getoption("--browser_name")
     if browser == 'chrome':
+        my_logger.info('\nStart Chrome browser for test...')
         options = webdriver.ChromeOptions()
         options.add_argument("headless")
         options.add_argument('--ignore-certificate-errors')
-        browser = webdriver.Chrome(desired_capabilities=d, options=options)
+        browser = webdriver.Chrome(options=options)
     elif browser == 'firefox':
+        my_logger.info('\nStart Firefox browser for test...')
         options = webdriver.FirefoxOptions()
         options.add_argument("-headless")
         browser = webdriver.Firefox(options=options)
+        browser = EventFiringWebDriver(webdriver.Firefox(options=options), Listener())
     yield browser
+    my_logger.info('\nClose browser...')
     browser.quit()
 
 
@@ -61,3 +87,13 @@ def open_admin(browser):
     password_input = browser.find_element(*AdminLoginPage.PASSWORD)
     password_input.send_keys(AdminLoginPage.password)
     browser.find_element(By.XPATH, '//*[text()="Login"]').click()
+
+
+def wait_for_element(browser, locator):
+    """Custom waitter different web elements"""
+    try:
+        WebDriverWait(browser, 5).until(ec.presence_of_element_located(locator))
+        browser.implicitly_wait(5)
+    except NoSuchElementException:
+        print('Web element not found!')
+    browser.find_element(*locator)
