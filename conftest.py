@@ -55,13 +55,13 @@ def browser(request, my_logger):
     if browser == 'chrome':
         my_logger.info('\nStart Chrome browser for test...')
         options = webdriver.ChromeOptions()
-        options.add_argument("headless")
+        # options.add_argument("headless")
         options.add_argument('--ignore-certificate-errors')
         browser = webdriver.Chrome(options=options)
     elif browser == 'firefox':
         my_logger.info('\nStart Firefox browser for test...')
         options = webdriver.FirefoxOptions()
-        options.add_argument("-headless")
+        # options.add_argument("-headless")
         browser = webdriver.Firefox(options=options)
         browser = EventFiringWebDriver(webdriver.Firefox(options=options), Listener())
     yield browser

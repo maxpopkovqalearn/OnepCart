@@ -8,7 +8,6 @@ import logging
 
 
 class BasePage:
-
     _logger_name = None
 
     def __init__(self, browser):
@@ -43,7 +42,3 @@ class BasePage:
 
     def _wait_for_visible(self, locator, time_wait=3):
         return WebDriverWait(self.driver, time_wait).until(ec.visibility_of(self.driver.find_element(*locator)))
-
-
-
-
