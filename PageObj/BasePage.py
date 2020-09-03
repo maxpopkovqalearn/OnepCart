@@ -5,6 +5,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.common.exceptions import NoSuchElementException
 import logging
+import allure
 
 
 class BasePage:
@@ -17,13 +18,18 @@ class BasePage:
 
     def _click_to_element(self, locator):
         """Click to web element"""
-        try:
-            self.driver.implicitly_wait(3)
-            WebDriverWait(self.driver, 5).until(ec.presence_of_element_located(locator))
-        except NoSuchElementException:
-            print('Element is not found')
-        finally:
-            self.driver.find_element(*locator).click()
+        with allure.step('Поиск и клик по элементу'):
+            try:
+                self.driver.implicitly_wait(3)
+                WebDriverWait(self.driver, 5).until(ec.presence_of_element_located(locator))
+            except NoSuchElementException:
+                print('Element is not found')
+                allure.attach(body=self.driver.get_screenshot_as_png(),
+                              name="screenshot_image",
+                              attachment_type=allure.attachment_type.PNG)
+                raise AssertionError(e.msg)
+            finally:
+                self.driver.find_element(*locator).click()
 
     def _send_keys(self, value, locator):
         """Send keys to specified locator"""
