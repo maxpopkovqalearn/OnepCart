@@ -1,20 +1,15 @@
 from selenium import webdriver
 
-BROWSERSTACK_URL = 'https://maxpopkov1:zgn8XW7s9ZxpknssmYyY@hub-cloud.browserstack.com/wd/hub'
-
-desired_cap = {
-
-    'os': 'Windows',
-    'os_version': '10',
-    'browser': 'Firefox',
-    'browser_version': '70',
-    'name': "Max's First Test"
-
+capabilities = {
+    "browserName": "firefox",
+    "version": "79.0",
+    "enableVNC": True,
+    "enableVideo": False
 }
 
 driver = webdriver.Remote(
-    command_executor=BROWSERSTACK_URL,
-    desired_capabilities=desired_cap
+    command_executor="http://127.0.0.1:4444/wd/hub",
+    desired_capabilities=capabilities
 )
 
 driver.get("http://www.google.com")

@@ -6,6 +6,9 @@ import time
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.alert import Alert
+from selenium.common.exceptions import TimeoutException
+
+import allure
 
 
 class AdminLoginPage(BasePage):
@@ -55,36 +58,43 @@ class AdminLoginPage(BasePage):
         OPTION_VALUE_NAME = (By.CSS_SELECTOR, '#option-value .input-group input')
 
     def open_product_from_catalog(self):
-        self._click_to_element(self.Navigation.CATALOG)
-        self._click_to_element(self.Navigation.CATALOG_PRODUCTS)
-        return self
+        with allure.step('Открыть продукт из каталога'):
+            self._click_to_element(self.Navigation.CATALOG)
+            self._click_to_element(self.Navigation.CATALOG_PRODUCTS)
+            return self
 
     def open_options_from_catalog(self):
-        self._click_to_element(self.Navigation.CATALOG)
-        self._click_to_element(self.Navigation.CATALOG_OPTIONS)
-        return self
+        with allure.step('Открыть опции каталога'):
+            self._click_to_element(self.Navigation.CATALOG)
+            self._click_to_element(self.Navigation.CATALOG_OPTIONS)
+            return self
 
     def add_new_element(self):
-        self._click_to_element(self.GeneralActions.ADD_NEW)
-        return self
+        with allure.step('Клик по добавить элемент'):
+            self._click_to_element(self.GeneralActions.ADD_NEW)
+            return self
 
     def edit_element(self):
-        self._click_to_element(self.GeneralActions.EDIT)
-        return self
+        with allure.step('Отредактировать продукт'):
+            self._click_to_element(self.GeneralActions.EDIT)
+            return self
 
     def save_element(self):
-        self._click_to_element(self.GeneralActions.SAVE)
-        return self
+        with allure.step('Сохранить продукт'):
+            self._click_to_element(self.GeneralActions.SAVE)
+            return self
 
     def copy_element(self):
-        self._click_to_element(self.GeneralActions.CHECK_FOR_REMOVE)
-        self._click_to_element(self.GeneralActions.COPY)
-        return self
+        with allure.step('Скопировать продукт'):
+            self._click_to_element(self.GeneralActions.CHECK_FOR_REMOVE)
+            self._click_to_element(self.GeneralActions.COPY)
+            return self
 
     def remove_element(self):
-        self._click_to_element(self.GeneralActions.CHECK_FOR_REMOVE)
-        self._click_to_element(self.GeneralActions.REMOVE)
-        return self
+        with allure.step('Удалить'):
+            self._click_to_element(self.GeneralActions.CHECK_FOR_REMOVE)
+            self._click_to_element(self.GeneralActions.REMOVE)
+            return self
 
     def input_product_form_general_tab(self, prod_name, meta_tag):
         self._send_keys(prod_name, self.ProductForm.PRODUCT_NAME)
@@ -97,23 +107,31 @@ class AdminLoginPage(BasePage):
         return self
 
     def upload_new_image(self):
-        self._click_to_element(self.ProductForm.ProductTabs.IMAGE_TAB)
-        self._click_to_element(self.ProductForm.IMAGE)
-        self._click_to_element(self.ProductForm.EDIT_IMAGE)
-        self._wait_for_visible(self.ProductForm.UPLOAD_IMAGE)
-        self._click_to_element(self.ProductForm.UPLOAD_IMAGE)
-        return self
+        with allure.step('Загрузить изображение'):
+            self._click_to_element(self.ProductForm.ProductTabs.IMAGE_TAB)
+            self._click_to_element(self.ProductForm.IMAGE)
+            self._click_to_element(self.ProductForm.EDIT_IMAGE)
+            self._wait_for_visible(self.ProductForm.UPLOAD_IMAGE)
+            self._click_to_element(self.ProductForm.UPLOAD_IMAGE)
+            return self
 
     def select_image_from_explorer(self):
         # Change working directory for open config file
-        filename = os.path.abspath('selenium.png')
-        print(filename)
-        choose_file = self.driver.find_element(*self.ProductForm.CHOOSE_FILE)
-        choose_file.send_keys(filename)
-        time.sleep(5)
-        alert = self.driver.switch_to.alert
-        alert.accept()
-        return self
+        with allure.step('Выбрать изображение'):
+            try:
+                filename = os.path.abspath('selenium.png')
+                print(filename)
+                choose_file = self.driver.find_element(*self.ProductForm.CHOOSE_FILE)
+                choose_file.send_keys(filename)
+                time.sleep(5)
+                alert = self.driver.switch_to.alert
+                alert.accept()
+                return self
+            except TimeoutException as exc:
+                allure.attach(body=self.driver.get_screenshot_as_png(),
+                              name="screenshot_image",
+                              attachment_type=allure.attachment_type.PNG)
+                raise AssertionError(exc.msg)
 
     def close_upload_window(self):
         self._click_to_element(self.ProductForm.CLOSE_UPLOAD_WINDOW)
