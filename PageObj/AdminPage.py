@@ -1,5 +1,4 @@
 """Selectors for different elements in the Opencart Admin Login page """
-from selenium.webdriver.common.by import By
 from PageObj.BasePage import BasePage
 import os
 import time

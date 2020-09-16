@@ -62,7 +62,6 @@ def browser(request, my_logger):
         my_logger.info('\nStart Firefox browser for test...')
         options = webdriver.FirefoxOptions()
         # options.add_argument("-headless")
-        browser = webdriver.Firefox(options=options)
         browser = EventFiringWebDriver(webdriver.Firefox(options=options), Listener())
     yield browser
     my_logger.info('\nClose browser...')
