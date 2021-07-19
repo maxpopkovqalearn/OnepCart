@@ -1,0 +1,18 @@
+INFO:Web Driver:
+Start Firefox browser for test...
+INFO:Browser actions:I'm navigating to http://127.0.0.1:8000/
+INFO:Browser actions:I'm on http://127.0.0.1:8000/
+INFO:Browser actions:I'm looking for '//*[text()='Test sign in']' with 'xpath'
+INFO:Browser actions:I've found '//*[text()='Test sign in']' with 'xpath'
+INFO:Browser actions:I'm looking for 'login' with 'name'
+INFO:Browser actions:I've found 'login' with 'name'
+INFO:Browser actions:I'm looking for 'password' with 'name'
+INFO:Browser actions:I've found 'password' with 'name'
+INFO:Browser actions:I'm looking for 'input[value='Войти']' with 'css selector'
+INFO:Browser actions:I've found 'input[value='Войти']' with 'css selector'
+INFO:Browser actions:I'm looking for 'input[value='Войти']' with 'css selector'
+INFO:Browser actions:I've found 'input[value='Войти']' with 'css selector'
+INFO:Web Driver:
+Close browser...
+INFO:Browser actions:I'm getting ready to terminate <selenium.webdriver.firefox.webdriver.WebDriver (session="19654ed6-eb3f-484a-ab26-a0e0eb757392")>
+INFO:Browser actions:WASTED!!!
